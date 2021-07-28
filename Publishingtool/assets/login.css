@@ -1,0 +1,41 @@
+body {
+    background-color: lightblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background-color: white;
+    padding: 1em;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.login-container form label {
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.login-container form input {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+
+.login-container form button {
+    margin-top: 1em;
+    width: 33%;
+    font-size: 1.3em;
+    border: 1px solid rgba(0,0,0,0.3);
+    background-color: lightblue;
+    color: black;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: .1s;
+    padding: 0.5em;
+}
+
+.login-container form button:hover {
+    transform: scale(1.03);
+}

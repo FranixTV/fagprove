@@ -1,4 +1,4 @@
 spa/node_modules
 Publishingtool/.env
-Publishingtool/API/vendor
+Publishingtool/vendor
 .idea/
