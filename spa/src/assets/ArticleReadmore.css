@@ -1,0 +1,49 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.close-readmore {
+    position: absolute;
+    font-size: 1.3em;
+    top: 1em;
+    left: 1em;
+}
+
+.article-readmore {
+    width: 70%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.article-readmore .readmore-image {
+    width: 100%;
+}
+
+.article-readmore .readmore-image img {
+    width: 100%;
+}
+
+.article-readmore {
+    text-align: center;
+}
+
+.article-readmore .readmore-summary,
+.article-readmore .readmore-content {
+    text-align: left;
+}
+
+.article-readmore .readmore-title {
+    margin: .5em 0 1em;
+    font-size: 2.2em;
+}
+
+.article-readmore .readmore-summary {
+    margin-bottom: 1em;
+    font-size: 1.5em;
+}
+
+.article-readmore .readmore-content {
+    font-size: 1.2em;
+    padding-bottom: 1em;
+}
