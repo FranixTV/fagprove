@@ -1,5 +1,5 @@
 <template>
-  <ArticleListing v-if="!article"/>
+  <ArticleListing :articles="articles" v-if="!article"/>
   <ArticleReadmore v-if="article" :article="article"/>
 </template>
 
@@ -15,8 +15,23 @@ export default {
   },
   data() {
     return {
-      article: null
+      article: null,
+      articles: null
     }
+  },
+  mounted() {
+    this.getArticles();
+  },
+  methods: {
+    getArticles: function () {
+      fetch('http://localhost:8001/API/articles', {
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }})
+          .then(response => response.json())
+          .then(data => this.articles = data);
+    },
   }
 }
 </script>

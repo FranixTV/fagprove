@@ -17,34 +17,22 @@ export default {
   components: {
       Article
   },
+  props: ["articles"],
   data() {
       return {
-        articles: null,
         textSearch: ""
       }
-  },
-  mounted() {
-    this.getArticles();
   },
   computed: {
     listArticles: function () {
       if(!this.textSearch) {
         return this.articles;
       }
-      let filter = article => article.title.toLowerCase().includes(this.textSearch.toLowerCase()) || (article.summary && article.summary.toLowerCase().includes(this.textSearch.toLowerCase()));
+      let filter = article => article.title.toLowerCase().includes(this.textSearch.toLowerCase()) || (article.summary && article.summary.toLowerCase().includes(this.textSearch.toLowerCase())) || (article.content && article.content.toLowerCase().includes(this.textSearch.toLowerCase()));
       return this.articles.filter(filter);
     }
   },
   methods: {
-    getArticles: function () {
-      fetch('http://localhost:8001/API/articles', {
-            headers: {
-              "Content-Type": "application/json",
-              "Accept": "application/json"
-      }})
-      .then(response => response.json())
-      .then(data => this.articles = data);
-    },
     toggleReadmore: function (articleId) {
       let articleProxy = this.articles.find(article => article.articleid === articleId);
       let article = JSON.parse(JSON.stringify(articleProxy));
