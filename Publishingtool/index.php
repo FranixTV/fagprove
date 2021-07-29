@@ -13,7 +13,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $error = "";
-if(isset($_POST) && !empty($_POST)) {
+if(isset($_POST["username"]) && isset($_POST["password"])) {
 
     $username = $_POST["username"];
     $password = $_POST["password"];
