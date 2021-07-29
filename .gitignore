@@ -2,4 +2,4 @@ spa/node_modules
 Publishingtool/.env
 Publishingtool/vendor
 .idea/
-/Publishingtool/files/*
+/spa/public/files/*
