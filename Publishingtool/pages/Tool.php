@@ -1,6 +1,6 @@
 <?php
 
-$query = "SELECT articleid, title, summary, content, images, created, published, username FROM articles JOIN users ON articles.authorid=users.userid";
+$query = "SELECT articleid, title, summary, content, images, created, published, username FROM articles JOIN users ON articles.authorid=users.userid ORDER BY articleid DESC";
 $statement = $db->query($query);
 $articles = $statement->fetch_all(MYSQLI_ASSOC);
 $error = "";
