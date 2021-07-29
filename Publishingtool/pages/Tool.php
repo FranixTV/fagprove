@@ -144,14 +144,24 @@ if(isset($_POST["submit"])) {
                 <button type="submit" name="submit">Lagre</button>
             </form>
         </div>
+        <button id="close-form-button" class="<?=(isset($editArticle) || !empty($error)) ? '' : 'hidden'?>" onclick="closeForm()">Lukk</button>
         <div class="articles">
+        <div class="article-header">
+            <p class="header-title">Tittel</p>
+            <p class="header-author">Forfatter</p>
+            <p class="header-date">Dato</p>
+            <p class="spacer"></p>
+            <p class="spacer"></p>
+        </div>
         <?php
             foreach($articles as $article) {
                 ?>
                 <div class="article">
                     <p class="article-title"><?=$article["title"]?></p>
-                    <span class="edit-article" onclick="toggleEdit(<?=$article["articleid"]?>)">Edit</span>
-                    <span class="delete-article" onclick="deleteArticle(<?=$article["articleid"]?>)">Delete</span>
+                    <p class="article-author"><?=$article["username"]?></p>
+                    <span class="article-date"><?=$article["created"]?></span>
+                    <span tabindex="0" aria-label="Rediger <?=$article["title"]?>" class="edit-article" onclick="toggleEdit(<?=$article["articleid"]?>)">Edit</span>
+                    <span tabindex="0" aria-label="Slett <?=$article["title"]?>" class="delete-article" onclick="deleteArticle(<?=$article["articleid"]?>)">Delete</span>
                 </div>
                 <?php
             }

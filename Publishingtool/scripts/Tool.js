@@ -10,7 +10,13 @@ function toggleEdit(articleId) {
 
 function showForm() {
     let formContainer = document.getElementById("article-form-container");
-    let button = document.getElementById("show-form-button");
+    let showButton = document.getElementById("show-form-button");
+    let closeButton = document.getElementById("close-form-button");
     formContainer.classList.remove("hidden");
-    button.classList.add("hidden");
+    closeButton.classList.remove("hidden");
+    showButton.classList.add("hidden");
+}
+
+function closeForm() {
+    window.location.href = "/";
 }

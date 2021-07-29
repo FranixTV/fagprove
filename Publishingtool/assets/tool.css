@@ -6,7 +6,7 @@
 .tool-container {
     display: flex;
     justify-content: center;
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
     flex-direction: column;
 }
@@ -15,17 +15,81 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-top: 1em;
 }
 
 .article {
     display: flex;
+    padding: 0.2em 0;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    align-items: center;
 }
 
-span.edit-article {
-    margin-left: auto;
+.article-title {
+    font-weight: bold;
+    width: 30%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-span.delete-article {
+.article-author,
+.article-date {
+    width: 20%;
+    text-align: center;
+}
+
+.edit-article,
+.delete-article {
+    width: 8%;
+    text-align: center;
+}
+
+.article-header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.article-header p {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.header-title {
+    width: 30%;
+}
+
+.header-author,
+.header-date {
+    width: 20%;
+}
+
+.spacer {
+    width: 8%;
+}
+
+.edit-article,
+.delete-article {
+    cursor: pointer;
+    padding: 0.25em 1em;
+    background-color: lightblue;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+
+.edit-article:hover,
+.delete-article:hover {
+    border: 1px solid black;
+    background-color: white;
+}
+
+.edit-article {
+}
+
+.delete-article {
     margin-left: 2em;
 }
 
@@ -44,4 +108,10 @@ textarea {
     text-align: center;
     margin-bottom: 2em;
     justify-content: center;
+}
+
+@media all and (max-width: 1200px) {
+    .tool-container {
+        width: 95%;
+    }
 }
