@@ -35,6 +35,10 @@ class User
         return false;
     }
 
+    public function getId() {
+        return $this->userId;
+    }
+
     private function getUserData($username) {
         $statement = $this->db->prepare("SELECT * FROM users WHERE username=?");
         $statement->bind_param('s', $username);

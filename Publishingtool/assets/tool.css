@@ -1,0 +1,47 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.tool-container {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin: 0 auto;
+    flex-direction: column;
+}
+
+.articles {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.article {
+    display: flex;
+}
+
+span.edit-article {
+    margin-left: auto;
+}
+
+span.delete-article {
+    margin-left: 2em;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+
+textarea {
+    resize: none;
+}
+
+.article-form-container form {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-bottom: 2em;
+    justify-content: center;
+}
