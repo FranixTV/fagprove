@@ -29,7 +29,7 @@ class Article
 
     private function getArticles() {
         try {
-            $query = "SELECT articleid, title, summary, content, images, created, published, username FROM articles JOIN users ON articles.authorid=users.userid WHERE published=1";
+            $query = "SELECT articleid, title, summary, images, created, username FROM articles JOIN users ON articles.authorid=users.userid WHERE published=1";
             $statement = $this->db->query($query);
             $result = $statement->fetch_all(MYSQLI_ASSOC);
 
@@ -43,7 +43,7 @@ class Article
 
     private function getArticle($articleId) {
         try {
-            $statement = $this->db->prepare("SELECT articleid, title, summary, content, images, created, published, username FROM articles JOIN users ON articles.authorid=users.userid WHERE published=1 AND articleid=?");
+            $statement = $this->db->prepare("SELECT articleid, title, summary, content, images, created, username FROM articles JOIN users ON articles.authorid=users.userid WHERE published=1 AND articleid=?");
             $statement->bind_param('i', $articleId);
 
             $statement->execute();
