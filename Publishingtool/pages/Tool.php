@@ -6,17 +6,21 @@ $articles = $statement->fetch_all(MYSQLI_ASSOC);
 $error = "";
 
 function uploadImage() {
-    $target_dir = "files/";
+    $target_dir = "../spa/public/files/";
     $target_file = $target_dir . basename($_FILES["article-image"]["name"]);
+    $spaPath = '/files/' . basename($_FILES["article-image"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-    $check = getimagesize($_FILES["article-image"]["tmp_name"]);
-    if(!$check) {
+    if($_FILES["article-image"]["error"] > 0) {
+        $uploadOk = false;
+        return ["error" => "En feil oppsto, prøv med et annet bilde", "uploadOk" => $uploadOk];
+    }
+    if(!getimagesize($_FILES["article-image"]["tmp_name"])) {
         $uploadOk = false;
         return ["error" => "Filen var ikke et bilde", "uploadOk" => $uploadOk];
     }
     if(file_exists($target_file)) {
         $uploadOk = true;
-        return ["error" => "", "uploadOk" => $uploadOk, "path" => $target_file];
+        return ["error" => "", "uploadOk" => $uploadOk, "path" => $spaPath];
     }
     if($_FILES["article-image"]["size"] > 5000000) {
         $uploadOk = false;
@@ -28,7 +32,7 @@ function uploadImage() {
     }
     if(move_uploaded_file($_FILES["article-image"]["tmp_name"], $target_file)) {
         $uploadOk = true;
-        return ["error" => "", "uploadOk" => $uploadOk, "path" => $target_file];
+        return ["error" => "", "uploadOk" => $uploadOk, "path" => $spaPath];
     } else {
         $uploadOk = false;
         return ["error" => "Noe gikk galt under opplastingen av filen, vennligst prøv igjen", "uploadOk" => $uploadOk];
@@ -79,7 +83,7 @@ if(isset($_POST["submit"])) {
             $check = false;
             $error = $result["error"];
         } else {
-            $image = json_encode(["http://localhost:8001/" . $result["path"]]);
+            $image = json_encode([$result["path"]]);
         }
     }
 
