@@ -1,6 +1,6 @@
 <template>
   <div class="article-list-outer">
-    <input class="article-search" type="text" name="freeSearch" placeholder="Frisøk..." v-model="textSearch"/>
+    <input class="article-search" type="search" name="freeSearch" placeholder="Frisøk..." v-model="textSearch"/>
     <div class="article-list" v-if="listArticles">
       <template v-for="article of listArticles" :key="article.id">
         <Article :article="article" @readmore="toggleReadmore"/>
