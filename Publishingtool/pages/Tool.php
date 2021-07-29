@@ -53,7 +53,7 @@ $article = [
 if(isset($_GET["editArticle"])) {
     $articleId = $_GET["editArticle"];
     $articleIndex = array_search($articleId, array_column($articles, 'articleid'));
-    if($articleIndex) {
+    if($articleIndex !== false) {
         $editArticle = true;
         $article = $articles[$articleIndex];
     }
@@ -122,7 +122,7 @@ if(isset($_POST["submit"])) {
 <body>
     <a href="?logout=1">Logg ut</a>
     <div class="tool-container">
-        <button id="show-form-button" class="<?=isset($editArticle) || !empty($error) ? 'hidden' : ''?>" onclick="showForm()">Ny artikkel</button>
+        <button id="show-form-button" class="<?=(isset($editArticle) || !empty($error)) ? 'hidden' : ''?>" onclick="showForm()">Ny artikkel</button>
         <div id="article-form-container" class="article-form-container <?=isset($editArticle) || !empty($error) ? '' : 'hidden'?>">
             <form method="POST" enctype="multipart/form-data">
                 <p class="form-error"><?=$error?></p>
