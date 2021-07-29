@@ -1,8 +1,11 @@
 <template>
-  <div class="article-list">
-    <template v-for="article of articles" :key="article.id">
-      <Article :article="article" @readmore="toggleReadmore"/>
-    </template>
+  <div class="article-list-outer">
+    <input class="article-search" type="text" name="freeSearch" placeholder="Frisøk..." v-model="textSearch"/>
+    <div class="article-list" v-if="listArticles">
+      <template v-for="article of listArticles" :key="article.id">
+        <Article :article="article" @readmore="toggleReadmore"/>
+      </template>
+    </div>
   </div>
 </template>
 
@@ -16,11 +19,21 @@ export default {
   },
   data() {
       return {
-        articles: null
+        articles: null,
+        textSearch: ""
       }
   },
   mounted() {
     this.getArticles();
+  },
+  computed: {
+    listArticles: function () {
+      if(!this.textSearch) {
+        return this.articles;
+      }
+      let filter = article => article.title.toLowerCase().includes(this.textSearch.toLowerCase()) || (article.summary && article.summary.toLowerCase().includes(this.textSearch.toLowerCase()));
+      return this.articles.filter(filter);
+    }
   },
   methods: {
     getArticles: function () {
@@ -37,7 +50,7 @@ export default {
       let article = JSON.parse(JSON.stringify(articleProxy));
       this.$parent.article = article;
     }
-  }
+  },
 }
 </script>
 

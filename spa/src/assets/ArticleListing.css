@@ -3,6 +3,16 @@
     padding: 0;
 }
 
+.article-list-outer {
+    display: flex;
+    flex-direction: column;
+}
+
+.article-search {
+    font-size: 1.5em;
+    margin: 1em auto 0;
+}
+
 .article-list {
     width: 70%;
     display: flex;
