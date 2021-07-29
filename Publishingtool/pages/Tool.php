@@ -19,6 +19,7 @@ if(isset($_GET["editArticle"])) {
     $articleId = $_GET["editArticle"];
     $articleIndex = array_search($articleId, array_column($articles, 'articleid'));
     if($articleIndex) {
+        $editArticle = true;
         $article = $articles[$articleIndex];
 
         $images = json_decode($article["images"], true);
@@ -44,7 +45,7 @@ if(isset($_POST["submit"])) {
     $image = json_encode([$_POST["article-image"]]);
     $published = isset($_POST["article-published"]) ? 1 : 0;
 
-    if(isset($_GET["editArticle"])) {
+    if(isset($_GET["editArticle"]) && isset($editArticle)) {
         $articleId = $_GET["editArticle"];
 
         $statement = $db->prepare("UPDATE articles SET title=?, summary=?, content=?, images=?, published=? WHERE articleid=?");
@@ -77,8 +78,8 @@ if(isset($_POST["submit"])) {
 <body>
     <a href="?logout=1">Logg ut</a>
     <div class="tool-container">
-        <button id="show-form-button" class="<?=isset($articleId) ? 'hidden' : ''?>" onclick="showForm()">Ny artikkel</button>
-        <div id="article-form-container" class="article-form-container <?=isset($articleId) ? '' : 'hidden'?>">
+        <button id="show-form-button" class="<?=isset($editArticle) ? 'hidden' : ''?>" onclick="showForm()">Ny artikkel</button>
+        <div id="article-form-container" class="article-form-container <?=isset($editArticle) ? '' : 'hidden'?>">
             <form method="POST">
                 <label for="article-title">Tittel</label>
                 <input type="text" value="<?=$article["title"]?>" name="article-title" id="article-title"/>
