@@ -1,9 +1,15 @@
 <?php
+use Src\User;
 
 $query = "SELECT articleid, title, summary, content, images, created, published, username FROM articles JOIN users ON articles.authorid=users.userid ORDER BY articleid DESC";
 $statement = $db->query($query);
 $articles = $statement->fetch_all(MYSQLI_ASSOC);
+
+$query = "SELECT userid, username FROM users ORDER BY userid DESC";
+$statement = $db->query($query);
+$users = $statement->fetch_all(MYSQLI_ASSOC);
 $error = "";
+$loginError = "";
 
 function uploadImage() {
     $target_dir = "../spa/public/files/";
@@ -70,7 +76,7 @@ if(isset($_GET["deleteArticle"])) {
     header("Refresh:0; url=/");
 }
 
-if(isset($_POST["submit"])) {
+if(isset($_POST["submitArticle"])) {
     $title = $_POST["article-title"];
     $summary = $_POST["article-summary"];
     $content = $_POST["article-content"];
@@ -110,17 +116,65 @@ if(isset($_POST["submit"])) {
     }
 }
 
+if(isset($_POST["submitUser"])) {
+    $username = strtolower($_POST["username"]);
+    $password = $_POST["password"];
+
+    if(preg_match('/^\w{5,}$/', $username)) { // \w equals "[0-9A-Za-z_]"
+        $newUser = new User($db);
+        if(!$newUser->userExists($username)) {
+            $newUser->createUser($username, $password);
+            header("Refresh:0; url=/");
+        } else {
+            $loginError = "Brukeren eksisterer allerede";
+
+        }
+    } else {
+        $loginError = "Ikke gyldig brukernavn";
+    }
+}
+
+if(isset($_GET["deleteUser"])) {
+    $userId = (int) $_GET["deleteUser"];
+    if($userId !== $_SESSION["userid"]) {
+        $statement = $db->prepare("DELETE FROM users WHERE userid=?");
+        $statement->bind_param('i', $userId);
+
+        $statement->execute();
+
+        header("Refresh:0; url=/");
+    }
+    header("Refresh:0; url=/");
+}
+
+if(isset($_GET["deleteMyUser"])) {
+    $userId = (int) $_GET["deleteMyUser"];
+    if($userId === $_SESSION["userid"]) {
+        $statement = $db->prepare("DELETE FROM users WHERE userid=?");
+        $statement->bind_param('i', $userId);
+
+        $statement->execute();
+
+        session_destroy();
+
+        header("Refresh:0; url=/");
+    }
+    header("Refresh:0; url=/");
+}
+
 
 ?>
 
+<!DOCTYPE HTML>
 <html lang="no">
 <head>
     <link rel="stylesheet" href="../assets/tool.css">
     <meta charset="UTF-8">
     <title>Publiseringsverktøy</title>
+    <script src="https://cdn.tiny.cloud/1/s3yoe29u687t3mhi0j1qnhm2mts2m030eg329ltivg4ad4o4/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body>
-    <a href="?logout=1">Logg ut</a>
+    <a class="logout-button" href="?logout=1">Logg ut</a>
     <div class="tool-container">
         <button id="show-form-button" class="<?=(isset($editArticle) || !empty($error)) ? 'hidden' : ''?>" onclick="showForm()">Ny artikkel</button>
         <div id="article-form-container" class="article-form-container <?=isset($editArticle) || !empty($error) ? '' : 'hidden'?>">
@@ -141,18 +195,18 @@ if(isset($_POST["submit"])) {
                 <label for="article-published">Publisert</label>
                 <input type="checkbox" <?=($article["published"] == 1 ? 'checked' : '')?> name="article-published" id="article-published"/>
 
-                <button type="submit" name="submit">Lagre</button>
+                <button type="submit" name="submitArticle">Lagre</button>
             </form>
         </div>
         <button id="close-form-button" class="<?=(isset($editArticle) || !empty($error)) ? '' : 'hidden'?>" onclick="closeForm()">Lukk</button>
         <div class="articles">
-        <div class="article-header">
-            <p class="header-title">Tittel</p>
-            <p class="header-author">Forfatter</p>
-            <p class="header-date">Dato</p>
-            <p class="spacer"></p>
-            <p class="spacer"></p>
-        </div>
+            <div class="article-header">
+                <p class="header-title">Tittel</p>
+                <p class="header-author">Forfatter</p>
+                <p class="header-date">Dato</p>
+                <p class="spacer"></p>
+                <p class="spacer"></p>
+            </div>
         <?php
             foreach($articles as $article) {
                 ?>
@@ -160,14 +214,58 @@ if(isset($_POST["submit"])) {
                     <p class="article-title"><?=$article["title"]?></p>
                     <p class="article-author"><?=$article["username"]?></p>
                     <span class="article-date"><?=$article["created"]?></span>
-                    <span tabindex="0" aria-label="Rediger <?=$article["title"]?>" class="edit-article" onclick="toggleEdit(<?=$article["articleid"]?>)">Edit</span>
-                    <span tabindex="0" aria-label="Slett <?=$article["title"]?>" class="delete-article" onclick="deleteArticle(<?=$article["articleid"]?>)">Delete</span>
+                    <span tabindex="0" aria-label="Rediger <?=$article["title"]?>" class="edit-article" onclick="toggleEdit(<?=$article["articleid"]?>)">Rediger</span>
+                    <span tabindex="0" aria-label="Slett <?=$article["title"]?>" class="delete-article" onclick="deleteArticle(<?=$article["articleid"]?>, '<?=$article["title"]?>')">Slett</span>
                 </div>
                 <?php
             }
         ?>
         </div>
+        <div class="user-form-outer">
+            <h2>Brukerstrying</h2>
+            <button id="show-user-form" class="<?= !empty($loginError) ? "hidden" : "" ?>" onclick="toggleUserForm()">Ny bruker</button>
+            <div class="user-form-container <?= !empty($loginError) ? "" : "hidden" ?>" id="user-form-container">
+                <form method="POST">
+                    <p class="form-error"><?=$loginError?></p>
+                    <label for="username">Brukernavn</label>
+                    <input id="username" maxlength="45" type="text" name="username"/>
+
+                    <label for="password">Passord</label>
+                    <input id="password" maxlength="72" type="password" name="password"/>
+
+                    <button type="submit" name="submitUser">Lagre</button>
+                </form>
+            </div>
+            <button id="close-user-form" class="<?=!empty($loginError) ? "" : "hidden"?>" onclick="toggleUserForm()">Lukk</button>
+        </div>
+        <div class="users">
+            <?php
+                foreach ($users as $user) {
+                    ?>
+                    <div class="user">
+                        <p class="user-username"><?=$user["username"]?></p>
+                        <?php
+                        if((int)$user["userid"] !== $_SESSION["userid"]) {
+                        ?>
+                        <span tabindex="0" aria-label="Slett bruker <?=$user["username"]?>" class="delete-user" onclick="deleteUser(<?=$user["userid"]?>, '<?=$user["username"]?>')">Slett</span>
+                        <?php } else { ?>
+                        <span tabindex="0" aria-label="Slett brukeren din" class="delete-user" onclick="deleteMyUser(<?=$user["userid"]?>)">Slett min bruker</span>
+                        <?php } ?>
+                    </div>
+            <?php
+                }
+            ?>
+        </>
+        </div>
     </div>
+    <script>
+        tinymce.init({
+            selector: '#article-content',
+            plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists media mediaembed pageembed permanentpen powerpaste advtable',
+            toolbar: 'a11ycheck  casechange checklist code formatpainter pageembed permanentpen ',
+            height: 400
+        });
+    </script>
     <script src="../scripts/Tool.js"></script>
 </body>
 </html>

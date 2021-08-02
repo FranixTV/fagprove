@@ -11,6 +11,31 @@
     flex-direction: column;
 }
 
+#show-form-button,
+#close-form-button,
+button[name=submitArticle],
+#show-user-form,
+#close-user-form,
+button[name=submitUser]{
+    font-size: 1em;
+    padding: 0.25em;
+    background: lightblue;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#show-form-button:hover,
+#close-form-button:hover,
+button[name=submitArticle]:hover,
+#show-user-form:hover,
+#close-user-form:hover,
+button[name=submitUser]:hover {
+    border: 1px solid black;
+    background: white;
+}
+
 .articles {
     display: flex;
     flex-direction: column;
@@ -70,6 +95,20 @@
     width: 8%;
 }
 
+.logout-button {
+    text-decoration: none;
+    padding: 0.5em 1em;
+    background: lightblue;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: .2s;
+    margin: 1em;
+    position: sticky;
+    top: 1em;
+    left: 1em;
+    color: black;
+}
+
 .edit-article,
 .delete-article {
     cursor: pointer;
@@ -81,12 +120,14 @@
 }
 
 .edit-article:hover,
-.delete-article:hover {
+.delete-article:hover,
+.logout-button:hover {
     border: 1px solid black;
     background-color: white;
 }
 
 .edit-article {
+    margin-left: auto;
 }
 
 .delete-article {
@@ -99,16 +140,85 @@
 }
 
 textarea {
-    resize: none;
+    resize: vertical;
+}
+
+input#article-published {
+    margin: .5em 0 1em;
+}
+
+textarea#article-summary {
+    height: 7em;
+}
+
+textarea#article-content {
+    height: 25em;
 }
 
 .article-form-container form {
     display: flex;
     flex-direction: column;
-    text-align: center;
-    margin-bottom: 2em;
+    margin-bottom: 1em;
     justify-content: center;
 }
+
+.article-form-container form label,
+.user-form-container form label {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: .25em 0;
+}
+
+.user-form-outer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1em;
+    padding-bottom: 2em;
+    border-top: 2px solid black;
+    padding-top: .5em;
+}
+
+.user-form-outer > h2 {
+    text-align: center;
+}
+
+.user-form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-password {
+    margin-bottom: 1em;
+}
+
+button[name=submitUser] {
+    margin: 1em 0;
+}
+
+.user {
+    display: flex;
+    padding: 0.2em 0;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+
+.user-username {
+    overflow: hidden;
+    font-weight: bold;
+    text-overflow: ellipsis;
+}
+
+.delete-user {
+    cursor: pointer;
+    padding: 0.25em 1em;
+    background-color: lightblue;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition: 0.2s;
+    width: 8%;
+    text-align: center;
+    margin-left: auto;
+}
+
 
 @media all and (max-width: 1200px) {
     .tool-container {
