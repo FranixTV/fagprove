@@ -10,12 +10,6 @@ function deleteUser(userId, username) {
     }
 }
 
-function deleteMyUser(userId) {
-    if(confirm("Er du sikker på at du vil slette brukeren din? Dette kan ikke reverseres!")) {
-        window.location.href = "/?deleteMyUser=" + userId;
-    }
-}
-
 function toggleEdit(article) {
     let articleId = document.getElementById("editArticle");
     let title = document.getElementById("article-title");

@@ -116,29 +116,15 @@ if(isset($_POST["submitUser"])) {
 
 if(isset($_GET["deleteUser"])) {
     $userId = (int) $_GET["deleteUser"];
-    if($userId !== $_SESSION["userid"]) {
-        $statement = $db->prepare("DELETE FROM users WHERE userid=?");
-        $statement->bind_param('i', $userId);
+    $statement = $db->prepare("DELETE FROM users WHERE userid=?");
+    $statement->bind_param('i', $userId);
 
-        $statement->execute();
+    $statement->execute();
 
-        header("Refresh:0; url=/");
-    }
-    header("Refresh:0; url=/");
-}
-
-if(isset($_GET["deleteMyUser"])) {
-    $userId = (int) $_GET["deleteMyUser"];
-    if($userId === $_SESSION["userid"]) {
-        $statement = $db->prepare("DELETE FROM users WHERE userid=?");
-        $statement->bind_param('i', $userId);
-
-        $statement->execute();
-
+    if((int)$_SESSION["userid"] === $userId) {
         session_destroy();
-
-        header("Refresh:0; url=/");
     }
+
     header("Refresh:0; url=/");
 }
 
@@ -163,19 +149,19 @@ if(isset($_GET["deleteMyUser"])) {
 
                 <p class="form-error"><?=$error?></p>
                 <label for="article-title">Tittel</label>
-                <input type="text" value="<?=$article["title"]?>" name="article-title" id="article-title" required maxlength="60"/>
+                <input type="text" name="article-title" id="article-title" required maxlength="60"/>
 
                 <label for="article-summary">Ingress</label>
-                <textarea name="article-summary" id="article-summary" maxlength="255"><?=$article["summary"]?></textarea>
+                <textarea name="article-summary" id="article-summary" maxlength="255"></textarea>
 
                 <label for="article-content">Innhold</label>
-                <textarea name="article-content" id="article-content" maxlength="65000"><?=$article["content"]?></textarea>
+                <textarea name="article-content" id="article-content" maxlength="65000"></textarea>
 
                 <label for="article-image">Bilde</label>
                 <input type="file" name="article-image" id="article-image"/>
 
                 <label for="article-published">Publisert</label>
-                <input type="checkbox" <?=($article["published"] == 1 ? 'checked' : '')?> name="article-published" id="article-published"/>
+                <input type="checkbox" name="article-published" id="article-published"/>
 
                 <button type="submit" name="submitArticle">Lagre</button>
             </form>
@@ -231,7 +217,7 @@ if(isset($_GET["deleteMyUser"])) {
                         ?>
                         <span tabindex="0" aria-label="Slett bruker <?=$user["username"]?>" class="delete-user" onclick="deleteUser(<?=$user["userid"]?>, '<?=$user["username"]?>')">Slett</span>
                         <?php } else { ?>
-                        <span tabindex="0" aria-label="Slett brukeren din" class="delete-user" onclick="deleteMyUser(<?=$user["userid"]?>)">Slett min bruker</span>
+                        <span tabindex="0" aria-label="Slett brukeren din" class="delete-user" onclick="deleteUser(<?=$user["userid"]?>, '<?=$user["username"]?>')">Slett min bruker</span>
                         <?php } ?>
                     </div>
             <?php
