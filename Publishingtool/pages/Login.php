@@ -16,7 +16,7 @@
                 <label for="password">Passord</label>
                 <input aria-label="Passord" type="password" id="password" name="password" required/>
 
-                <button type="submit">Send</button>
+                <button type="submit" name="submitUserLogin">Send</button>
             </form>
         </div>
     </body>
