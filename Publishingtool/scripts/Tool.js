@@ -16,8 +16,19 @@ function deleteMyUser(userId) {
     }
 }
 
-function toggleEdit(articleId) {
-    window.location.href = "/?editArticle=" + articleId;
+function toggleEdit(article) {
+    let articleId = document.getElementById("editArticle");
+    let title = document.getElementById("article-title");
+    let summary = document.getElementById("article-summary");
+    let content = tinymce.get('article-content');
+    let checkbox = document.getElementById("article-published");
+
+    articleId.value = article.articleid;
+    title.value = article.title;
+    summary.value = article.summary;
+    content.setContent(article.content);
+    checkbox.checked = article.published === "1";
+    showForm();
 }
 
 function showForm() {
@@ -30,7 +41,24 @@ function showForm() {
 }
 
 function closeForm() {
-    window.location.href = "/";
+    let formContainer = document.getElementById("article-form-container");
+    let showButton = document.getElementById("show-form-button");
+    let closeButton = document.getElementById("close-form-button");
+    let articleId = document.getElementById("editArticle");
+    let title = document.getElementById("article-title");
+    let summary = document.getElementById("article-summary");
+    let content = tinymce.get('article-content');
+    let checkbox = document.getElementById("article-published");
+
+    articleId.value = 0;
+    title.value = "";
+    summary.value = "";
+    content.setContent("");
+    checkbox.checked = false;
+
+    formContainer.classList.add("hidden");
+    closeButton.classList.add("hidden");
+    showButton.classList.remove("hidden");
 }
 
 function toggleUserForm() {

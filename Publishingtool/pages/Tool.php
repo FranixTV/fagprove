@@ -45,26 +45,6 @@ function uploadImage() {
     }
 }
 
-$article = [
-    "articleid" => 0,
-    "title" => "",
-    "summary" => "",
-    "content" => "",
-    "images" => "",
-    "created" => "",
-    "published" => 0,
-    "authorid" => 0
-];
-
-if(isset($_GET["editArticle"])) {
-    $articleId = $_GET["editArticle"];
-    $articleIndex = array_search($articleId, array_column($articles, 'articleid'));
-    if($articleIndex !== false) {
-        $editArticle = true;
-        $article = $articles[$articleIndex];
-    }
-}
-
 if(isset($_GET["deleteArticle"])) {
     $articleId = $_GET["deleteArticle"];
 
@@ -94,8 +74,8 @@ if(isset($_POST["submitArticle"])) {
     }
 
     if((isset($check) && $check) || !isset($check)) {
-        if (isset($_GET["editArticle"]) && isset($editArticle)) {
-            $articleId = $_GET["editArticle"];
+        if (isset($_POST["editArticle"]) && (int)$_POST["editArticle"] !== 0) {
+            $articleId = $_POST["editArticle"];
 
             $statement = $db->prepare("UPDATE articles SET title=?, summary=?, content=?, images=?, published=? WHERE articleid=?");
             $statement->bind_param('ssssii', $title, $summary, $content, $image, $published, $articleId);
@@ -120,7 +100,7 @@ if(isset($_POST["submitUser"])) {
     $username = strtolower($_POST["username"]);
     $password = $_POST["password"];
 
-    if(preg_match('/^\w{5,}$/', $username)) { // \w equals "[0-9A-Za-z_]"
+    if(preg_match('/^\w{5,}$/', $username)) {
         $newUser = new User($db);
         if(!$newUser->userExists($username)) {
             $newUser->createUser($username, $password);
@@ -178,7 +158,9 @@ if(isset($_GET["deleteMyUser"])) {
     <div class="tool-container">
         <button id="show-form-button" class="<?=(isset($editArticle) || !empty($error)) ? 'hidden' : ''?>" onclick="showForm()">Ny artikkel</button>
         <div id="article-form-container" class="article-form-container <?=isset($editArticle) || !empty($error) ? '' : 'hidden'?>">
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" id="article-form" enctype="multipart/form-data">
+                <input type="number" value="0" class="hidden" name="editArticle" id="editArticle"/>
+
                 <p class="form-error"><?=$error?></p>
                 <label for="article-title">Tittel</label>
                 <input type="text" value="<?=$article["title"]?>" name="article-title" id="article-title" required maxlength="60"/>
@@ -214,7 +196,7 @@ if(isset($_GET["deleteMyUser"])) {
                     <p class="article-title"><?=$article["title"]?></p>
                     <p class="article-author"><?=$article["username"]?></p>
                     <span class="article-date"><?=$article["created"]?></span>
-                    <span tabindex="0" aria-label="Rediger <?=$article["title"]?>" class="edit-article" onclick="toggleEdit(<?=$article["articleid"]?>)">Rediger</span>
+                    <span tabindex="0" aria-label="Rediger <?=$article["title"]?>" class="edit-article" onclick="toggleEdit(<?= htmlspecialchars(json_encode($article)) ?>)">Rediger</span>
                     <span tabindex="0" aria-label="Slett <?=$article["title"]?>" class="delete-article" onclick="deleteArticle(<?=$article["articleid"]?>, '<?=$article["title"]?>')">Slett</span>
                 </div>
                 <?php
