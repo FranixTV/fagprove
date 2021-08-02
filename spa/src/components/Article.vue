@@ -1,13 +1,13 @@
 <template>
   <div class="single-article">
     <div class="article-image">
-      <img tabindex="0" role="link" :title="'Les mer av ' + article.title" @click="readmore()" v-if="getFirstImage" :src="getFirstImage"/>
+      <img tabindex="0" role="link" :alt="article.title" :title="'Les mer av ' + article.title" @click="readmore()" v-on:keyup.enter="readmore()" v-if="getFirstImage" :src="getFirstImage"/>
     </div>
     <div class="article-excerpt">
-      <h2 tabindex="0" :title="'Les mer av ' + article.title" class="article-title" @click="readmore()">{{article.title}}</h2>
+      <h2 tabindex="0" :title="'Les mer av ' + article.title" class="article-title" @click="readmore()" v-on:keyup.enter="readmore()">{{article.title}}</h2>
       <p class="article-summary">{{article.summary}}</p>
     </div>
-    <a tabindex="0" class="readmore-button" :title="'Les mer av ' + article.title" @click="readmore()">Les mer</a>
+    <a tabindex="0" class="readmore-button" :title="'Les mer av ' + article.title" @click="readmore()" v-on:keyup.enter="readmore()">Les mer</a>
   </div>
 </template>
 

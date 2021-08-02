@@ -9,6 +9,9 @@
 }
 
 .filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     margin: 1.5em auto 0;
 }
 
@@ -52,6 +55,12 @@
 
 .single-article .article-title {
     margin-bottom: .5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.single-article .article-summary {
+    word-break: break-all;
 }
 
 .single-article .article-excerpt {

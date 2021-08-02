@@ -8,9 +8,9 @@
         </template>
       </div>
       <div class="readmore-container">
-        <h1 class="readmore-title">{{article.title}}</h1>
+        <h2 class="readmore-title">{{article.title}}</h2>
         <p class="readmore-summary">{{article.summary}}</p>
-        <p class="readmore-content">{{article.content}}</p>
+        <div class="readmore-content" v-html="article.content"></div>
       </div>
     </div>
   </div>
