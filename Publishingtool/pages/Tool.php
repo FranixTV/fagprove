@@ -141,6 +141,9 @@ if(isset($_GET["deleteUser"])) {
     <meta charset="UTF-8">
     <title>Publiseringsverktøy</title>
     <script src="https://cdn.tiny.cloud/1/s3yoe29u687t3mhi0j1qnhm2mts2m030eg329ltivg4ad4o4/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 </head>
 <body>
     <a class="logout-button" href="?logout=1">Logg ut</a>
@@ -220,7 +223,7 @@ if(isset($_GET["deleteUser"])) {
                         ?>
                         <span tabindex="0" aria-label="Slett bruker <?=$user["username"]?>" class="delete-user" onclick="deleteUser(<?=$user["userid"]?>, '<?=$user["username"]?>')">Slett</span>
                         <?php } else { ?>
-                        <span tabindex="0" aria-label="Slett brukeren din" class="delete-user" onclick="deleteUser(<?=$user["userid"]?>, '<?=$user["username"]?>')">Slett min bruker</span>
+                        <span tabindex="0" aria-label="Slett brukeren din" class="delete-user" onclick="deleteUser(<?=$user["userid"]?>, '<?=$user["username"]?>')">Slett</span>
                         <?php } ?>
                     </div>
             <?php
