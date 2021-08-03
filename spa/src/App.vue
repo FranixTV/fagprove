@@ -1,6 +1,14 @@
 <template>
-  <ArticleListing :articles="articles" v-if="!article"/>
-  <ArticleReadmore v-if="article" :article="article"/>
+  <div>
+    <ArticleListing :articles="articles" v-if="!article"/>
+    <ArticleReadmore v-if="article" :article="article"/>
+    <footer v-if="showFooter">
+      <p>Rikart Svendsgård</p>
+      <p>Fagprøve</p>
+      <p>Seria AS</p>
+      <p>© Copyright 2021</p>
+    </footer>
+  </div>
 </template>
 
 <script>
@@ -16,7 +24,8 @@ export default {
   data() {
     return {
       article: null,
-      articles: null
+      articles: [],
+      showFooter: false
     }
   },
   mounted() {
@@ -30,11 +39,30 @@ export default {
           "Accept": "application/json"
         }})
           .then(response => response.json())
-          .then(data => this.articles = data);
-    },
+          .then((data) => {
+            this.articles = data;
+            setTimeout(() => {
+              this.showFooter = true;
+            }, 500);
+          });
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
+footer {
+  background-color: #333;
+  text-align: center;
+  padding: .5em;
+  margin-top: 5em;
+}
+
+footer p {
+  margin: 0.25em;
+}
+
+footer p:nth-child(1) {
+  font-size: 1.2em;
+}
 </style>
