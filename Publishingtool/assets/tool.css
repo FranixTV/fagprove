@@ -121,7 +121,8 @@ button[name=submitUser]:hover {
 
 .edit-article:hover,
 .delete-article:hover,
-.logout-button:hover {
+.logout-button:hover,
+.delete-user:hover {
     border: 1px solid black;
     background-color: white;
 }
@@ -199,6 +200,7 @@ button[name=submitUser] {
     display: flex;
     padding: 0.2em 0;
     border-bottom: 1px solid rgba(0,0,0,0.3);
+    align-items: center;
 }
 
 .user-username {
