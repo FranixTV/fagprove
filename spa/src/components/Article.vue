@@ -7,7 +7,7 @@
       <h2 tabindex="0" :title="'Les mer av ' + article.title" class="article-title" @click="readmore()" v-on:keyup.enter="readmore()">{{article.title}}</h2>
       <p class="article-summary">{{article.summary}}</p>
     </div>
-    <a tabindex="0" class="readmore-button" :title="'Les mer av ' + article.title" @click="readmore()" v-on:keyup.enter="readmore()">Les mer</a>
+
   </div>
 </template>
 
