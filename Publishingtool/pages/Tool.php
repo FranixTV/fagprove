@@ -12,10 +12,13 @@ $error = "";
 $loginError = "";
 
 function uploadImage() {
-    $target_dir = "../spa/public/files/";
+    $target_dir = "files/";
     $target_file = $target_dir . basename($_FILES["article-image"]["name"]);
-    $spaPath = '/files/' . basename($_FILES["article-image"]["name"]);
+    $spaPath = "//" . $_SERVER["HTTP_HOST"] . '/files/' . basename($_FILES["article-image"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    if (!file_exists('files')) {
+        mkdir('files', 0777, true);
+    }
     if($_FILES["article-image"]["error"] > 0) {
         $uploadOk = false;
         return ["error" => "En feil oppsto, prøv med et annet bilde", "uploadOk" => $uploadOk];
