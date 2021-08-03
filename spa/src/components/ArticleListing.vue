@@ -1,17 +1,21 @@
 <template>
   <div class="article-list-outer">
     <div class="filters-container">
-      <input aria-label="Frisøk på artikler" class="article-search" type="search" name="freeSearch" placeholder="Frisøk..." v-model="textSearch"/>
-      <select aria-label="Sorter artikler basert på alder" name="ageFilter" class="article-age-filter" v-model="ageFilter">
+      <label for="freeSearch">Frisøk</label>
+      <input aria-label="Frisøk på artikler" id="freeSearch" class="article-search" type="search" name="freeSearch" v-model="textSearch"/>
+
+      <label for="ageSearch">Sortering</label>
+      <select id="ageSearch" aria-label="Sorter artikler basert på alder" name="ageFilter" class="article-age-filter" v-model="ageFilter">
         <option value="DESC">Nyest - Eldst</option>
         <option value="ASC">Eldst - Nyest</option>
       </select>
     </div>
     <div class="article-list" v-if="articles">
       <template v-for="article of listArticles" :key="article.id">
-        <Article :article="article" @readmore="toggleReadmore"/>
+        <Article :showArticle="showArticle" :article="article" @readmore="toggleReadmore" @imageLoad="imageLoaded"/>
       </template>
     </div>
+
   </div>
 </template>
 
@@ -27,7 +31,9 @@ export default {
   data() {
       return {
         textSearch: "",
-        ageFilter: "DESC"
+        ageFilter: "DESC",
+        loaded: 0,
+        fallback: false
       }
   },
   computed: {
@@ -43,13 +49,24 @@ export default {
         showArticles = showArticles.sort((article1, article2) => article2.articleid - article1.articleid)
       }
       return showArticles;
+    },
+    showArticle: function () {
+      return (this.loaded === this.articles.length) || this.fallback;
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.fallback = true;
+    }, 500);
   },
   methods: {
     toggleReadmore: function (articleId) {
       let articleProxy = this.articles.find(article => article.articleid === articleId);
       let article = JSON.parse(JSON.stringify(articleProxy));
       this.$parent.article = article;
+    },
+    imageLoaded: function () {
+      this.loaded = this.loaded + 1;
     }
   },
 }

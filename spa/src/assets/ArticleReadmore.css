@@ -2,18 +2,27 @@
     padding: 0;
     margin: 0;
     font-family: 'Noto Sans JP', sans-serif;
+    color: white
 }
 
 .close-readmore {
-    position: absolute;
     font-size: 1.3em;
-    top: 1em;
     left: 1em;
     z-index: 10;
+    display: block;
+    background-color: #3a3a3a;
+    padding: .5em;
+    position: sticky;
+    top: 0;
+}
+
+.close-readmore:after {
+    content: "Tilbake";
+    margin-left: 1em;
+    font-style: normal;
 }
 
 .article-readmore {
-    width: 70%;
     margin: 0 auto;
     position: relative;
 }
@@ -24,6 +33,9 @@
 
 .article-readmore .readmore-image img {
     width: 100%;
+    height: 100%;
+    max-height: 70vh;
+    object-fit: cover;
 }
 
 .article-readmore {
@@ -54,4 +66,31 @@
 .article-readmore .readmore-content {
     font-size: 1.2em;
     padding-bottom: 1em;
+}
+
+.readmore-details {
+    border-bottom: 1px solid #707070;
+    margin-bottom: .75em;
+    justify-content: flex-end;
+    display: flex;
+    padding-bottom: 0.25em;
+}
+
+.readmore-details span {
+    margin: .5em .5em;
+}
+
+.readmore-details span i {
+    margin-right: 0.15em;
+}
+
+.readmore-container {
+    width: 70%;
+    margin: 0 auto;
+}
+@media all and (max-width: 980px) {
+    .readmore-container {
+        width: initial;
+        margin: 0 1em;
+    }
 }
