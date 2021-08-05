@@ -5,8 +5,8 @@ Fagprøve 2021 - Rikart Svendsgård
 ### Publishing tool
 Simple publishing tool written in PHP to publish, edit and delete articles. It is hidden behind a login screen and users can be created within the tool to grant access to other people.
 
-### Article list
-Simple article list used to list all the articles published by the publishing tool. It only gets published articles, and it features a readmore view of each article
+### Single page application
+Simple single page application used to list all the articles published by the publishing tool. It only gets published articles, and it features a readmore view of each article
 
 ## Features
 - CRUD functions for articles
@@ -23,9 +23,9 @@ Simple article list used to list all the articles published by the publishing to
 - Composer
 - MySQL database
 
-Install Vue CLI:
+Install Vue CLI and http-server:
 ```
-npm install -g @vue/cli
+npm install -g @vue/cli http-server
 ```
 
 ### Installation
@@ -56,7 +56,7 @@ npm install
     3. When it's running either go to http://localhost:8080 or click "Open app"
 
 ### Usage
-There are 2 sites for this project, as the publishing tool and the article list are separated.
+There are 2 sites for this project, as the publishing tool and the single page application are separated.
 
 #### Publishing tool
 Standard URL: http://localhost:8001
@@ -69,27 +69,10 @@ Password: admin
 
 Create articles by clicking the "Ny artikkel" button at the top when logged in. Edit articles by clicking "Rediger" on an article, or delete it by clicking "Slett". Users are exactly the same except you can only add/remove users. To add a user click the "Ny bruker" button, and to delete it click "Slett". All articles written by a user will automatically be deleted upon deleting the user.
 
-#### Article list
+#### Single page application
 Standard URL: http://localhost:8080
 
-The articles are retrieved by an API call to the publishing tool. If the URL to the publishingtool does not match the standard URL, the code has to be changed before the article list will work.
-
-Fix:
-- In `spa/src/App.vue` find (line 35):
-```js
-getArticles: function () {
-  fetch('http://localhost:8001/API/articles', {
-    headers: {
-      "Content-Type": "application/json",
-      "Accept": "application/json"
-    }})
-    .then(response => response.json())
-    .then((data) => {
-      this.articles = data;
-      setTimeout(() => {
-        this.showFooter = true;
-      }, 500);
-    });
-}
+The single page application expects to retrieve articles from 
 ```
-- Replace the URL in the `fetch` method to the correct URL for the publishing tool (don't change `/API/articles`)
+http://localhost:8001/API/articles
+```
