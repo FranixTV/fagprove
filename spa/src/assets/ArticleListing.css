@@ -106,7 +106,7 @@ body {
 }
 
 .single-article .article-summary {
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .single-article .article-excerpt {

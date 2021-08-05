@@ -66,7 +66,7 @@ export default {
       this.$parent.article = article;
     },
     imageLoaded: function () {
-      this.loaded = this.loaded + 1;
+      this.loaded++;
     }
   },
 }
