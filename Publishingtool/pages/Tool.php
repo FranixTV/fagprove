@@ -1,5 +1,6 @@
 <?php
 use Src\User;
+if($_SESSION["userid"]) {
 
 $query = "SELECT articleid, title, summary, content, images, created, published, username FROM articles JOIN users ON articles.authorid=users.userid ORDER BY articleid DESC";
 $statement = $db->query($query);
@@ -118,13 +119,13 @@ if(isset($_POST["submitUser"])) {
 }
 
 if(isset($_GET["deleteUser"])) {
-    $userId = (int) $_GET["deleteUser"];
+    $userId = (int)$_GET["deleteUser"];
     $statement = $db->prepare("DELETE FROM users WHERE userid=?");
     $statement->bind_param('i', $userId);
 
     $statement->execute();
 
-    if((int)$_SESSION["userid"] === $userId) {
+    if ((int)$_SESSION["userid"] === $userId) {
         session_destroy();
     }
 
@@ -243,3 +244,7 @@ if(isset($_GET["deleteUser"])) {
     <script src="../scripts/Tool.js"></script>
 </body>
 </html>
+<?php
+} else {
+    header("Refresh:0; url=/");
+}
