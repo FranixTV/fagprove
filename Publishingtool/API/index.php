@@ -21,6 +21,11 @@ if(!isset($uri[2]) || empty($uri[2])) {
     response404();
 }
 
+// Remove this line to activate /API/article/{{ID}} endpoint.
+if($uri[2] === "article") {
+    response404();
+}
+
 if($uri[2] !== "articles" && $uri[2] !== "article") {
     response404();
 }
