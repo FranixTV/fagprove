@@ -76,3 +76,23 @@ The single page application expects to retrieve articles from
 ```
 http://localhost:8001/API/articles
 ```
+
+## API
+
+### Endpoints
+`/API/articles`
+
+Response:
+```json
+[
+  {
+    "articleid": "1",
+    "title": "Demo article",
+    "summary": "This is the article summary",
+    "content": "This is the main content of the article",
+    "images": "[\"//localhost:8001/files/image.jpg\"]",
+    "created": "2021-08-03 00:00:00",
+    "username": "admin"
+  }
+]
+```
