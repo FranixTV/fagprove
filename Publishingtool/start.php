@@ -31,7 +31,7 @@ if($db->query($query)) {
         $query = "CREATE TABLE IF NOT EXISTS `$dbName`.`articles` (
                     `articleid` INT NOT NULL AUTO_INCREMENT,
                     `title` VARCHAR(45) NOT NULL,
-                    `summary` TEXT NULL,
+                    `summary` VARCHAR(255) NULL,
                     `content` TEXT NULL,
                     `images` TEXT NULL,
                     `created` DATETIME NOT NULL,
